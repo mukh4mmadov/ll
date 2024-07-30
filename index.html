@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cupcake">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products Details</title>
+    <link rel="stylesheet" href="./stlye.css" />
+    <link rel="stylesheet" href="./src/output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div id="overlay" class="hidden">Loading...</div>
+    <div id="products-container"></div>
+    <!-- Nav bar -->
+    <div class="container px-3 py-5 mx-auto xl:px-10">
+      <div class="navbar bg-base-100 sticky top-0 z-10">
+        <div class="flex-1">
+          <a href="./index.html" class="w-20 xl:cursor-pointer"
+            ><img
+              class="cursor-pointer"
+              src="./images/logo.png"
+              alt="logo"
+              width="50px"
+          /></a>
+        </div>
+
+        <div class="flex-none">
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <div class="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                <span id="badge" class="badge badge-sm indicator-item">0</span>
+              </div>
+            </div>
+            <div
+              tabindex="0"
+              class="mt-3 z-[30] card card-compact dropdown-content w-52 bg-base-100 shadow"
+            >
+              <!-- modal -->
+
+              <dialog id="my_modal_1" class="modal">
+                <div class="modal-box">
+                  <h3 class="font-bold text-lg">Hello!</h3>
+                  <p class="py-4">Cart is Empty</p>
+                  <div class="modal-action">
+                    <form method="dialog">
+                      <!-- if there is a button in form, it will close the modal -->
+                      <button class="btn">Close</button>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
+              <!-- modal -->
+
+              <div class="card-body">
+                <span id="cart-items" class="font-bold text-lg">0 Items</span>
+                <span id="total" class="text-info">Subtotal: $0</span>
+                <div class="card-actions">
+                  <button
+                    class="btn btn-primary btn-block"
+                    onclick="my_modal_1.showModal()"
+                  >
+                    View cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown dropdown-end">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost btn-circle avatar"
+            >
+              <div class="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src="./images/profile-icon.png"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul
+        class="hidden xl:flex navbar navbar-center justify-center w-[80%] gap-32 mb-12 sticky top-0 z-20 mx-auto"
+      >
+        <li class="btn btn-ghost hover:bg-primary">
+          <span><i class="fa-solid fa-list"></i></span>&#160;&#160; Categories
+        </li>
+        <li class="btn btn-ghost hover:bg-primary">
+          <span><i class="fa-solid fa-house"></i></span>&#160;&#160; Home
+        </li>
+        <a href="./sale.html">
+          <li class="btn btn-ghost hover:bg-primary">
+            <span><i class="fa-solid fa-gifts"></i></span>&#160;&#160;All
+            products
+          </li>
+        </a>
+        <li class="btn btn-ghost hover:bg-primary">
+          <span><i class="fa-solid fa-phone-volume"></i></span>&#160;&#160; Help
+          Center
+        </li>
+        <li class="btn btn-ghost hover:bg-primary">
+          <span><i class="fa-solid fa-mobile-retro"></i></span>&#160;&#160; Get
+          App
+        </li>
+      </ul>
+      <h1 class="text-center text-6xl text-primary mb-10">Popular Products</h1>
+      <ul id="pop-list" class="w-full flex flex-wrap gap-4 justify-center">
+        <template id="temp-popular">
+          <li id="list-item" class="cursor-pointer">
+            <div id="card" class="card card-compact w-96 bg-base-100 shadow-xl">
+              <figure>
+                <img
+                  id="thumbnail"
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  alt="Shoes"
+                />
+              </figure>
+              <div class="card-body">
+                <h3 id="pop-title" class="card-title h-4 w-full"></h3>
+                <div class="">
+                  <p
+                    id="oldPrice"
+                    class="text-lg text-gray-500 inline-block mr-8 opacity-50 semi-bold line-through"
+                  ></p>
+                  <h5
+                    id="discount"
+                    class="inline-block text-2xl text-red-600"
+                  ></h5>
+                </div>
+                <div class="flex gap-10 items-center">
+                  <span
+                    id="new-price"
+                    class="text-2xl font-semibold text-green-700"
+                    >$</span
+                  >
+                  <div class="star-rating">
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                  </div>
+                </div>
+                <div class="card-actions justify-end">
+                  <button id="cart-btn" class="btn btn-primary card-btn">
+                    Add to Cart
+                  </button>
+                  <a id="info-btn" class="btn btn-accent">Buy now</a>
+                </div>
+              </div>
+            </div>
+          </li>
+        </template>
+      </ul>
+      <h2 class="text-center text-6xl text-primary mt-24 mb-20" id="sale-title">
+        On Sale
+      </h2>
+      <ul id="dis-list" class="w-full flex flex-wrap gap-4 justify-center">
+        <template id="temp-dis">
+          <li id="list-item-dis" class="">
+            <div
+              id="card-dis"
+              class="card card-compact w-96 bg-base-100 shadow-xl"
+            >
+              <figure>
+                <img
+                  id="thumbnail-dis"
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                  alt="Shoes"
+                />
+              </figure>
+              <div class="card-body">
+                <h3 id="dis-title" class="card-title h-4 w-full"></h3>
+                <div class="">
+                  <p
+                    id="oldPrice-dis"
+                    class="text-lg text-gray-500 inline-block mr-8 opacity-50 semi-bold line-through"
+                  ></p>
+                  <h5
+                    id="discount-dis"
+                    class="inline-block text-2xl text-red-600"
+                  ></h5>
+                </div>
+                <div class="flex gap-10 items-center">
+                  <span
+                    id="new-price-dis"
+                    class="text-2xl font-semibold text-green-700"
+                    >₽</span
+                  >
+                  <div class="star-rating">
+                    <span class="star-dis">&#9733;</span>
+                    <span class="star-dis">&#9733;</span>
+                    <span class="star-dis">&#9733;</span>
+                    <span class="star-dis">&#9733;</span>
+                    <span class="star-dis">&#9733;</span>
+                  </div>
+                </div>
+                <div class="card-actions justify-end">
+                  <button id="cart-btn-dis" class="btn btn-primary card-btn">
+                    Add to Cart
+                  </button>
+                  <a id="info-btn-dis" class="btn btn-accent">Buy Now</a>
+                </div>
+              </div>
+            </div>
+          </li>
+        </template>
+      </ul>
+    </div>
+    <div class="bg-base-300 text-base-content mx-auto">
+      <footer
+        class="container px-3 py-5 mx-auto xl:px-10 2xl:max-w-[1280px] footer"
+      >
+        <nav class="clas1">
+          <h4 class="footer-title">Навигация</h4>
+          <a class="link link-hover">Главная</a>
+          <a class="link link-hover">Оптовая продажа</a>
+          <a class="link link-hover">О нас</a>
+        </nav>
+        <nav>
+          <h6 class="footer-title">Телефоны</h6>
+          <a class="link link-hover"> +7 (998) 565 00 38</a>
+          <a class="link link-hover"> +375 33 662 82 56 </a>
+          <a class="link link-hover">Email</a>
+          <a class="link link-hover"> vladpertcev@mail.ru</a>
+          <a class="link link-hover"> korobko416@gmail.com</a>
+        </nav>
+        <nav>
+          <h6 class="footer-title">Наш Адрес</h6>
+          <a class="link link-hover">Россия</a>
+          <a class="link link-hover"> Ростов-на-дону ул.</a>
+          <a class="link link-hover"> Богачева, 16</a>
+        </nav>
+        <nav>
+          <h6 class="footer-title">информация</h6>
+          <a class="link link-hover">Доставка и оплата</a>
+          <a class="link link-hover"> Гарантии</a>
+          <a class="link link-hover"> Возврат товара</a>
+        </nav>
+      </footer>
+    </div>
+    <div id="overlay" class="overlay hidden">
+      <span class="loading loading-dots loading-lg"></span>
+    </div>
+    <script src="./request.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
